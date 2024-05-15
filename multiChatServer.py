@@ -33,16 +33,15 @@ def handle_client(conn, addr):
         if msg != bytes("#quit", "utf8"):
             broadcast(msg, name + ": ")
         else:
-            conn.send(bytes("#quit", "utf8"))
             conn.close()
-            del clients[conn]
-            broadcast(bytes("%s вийшов з чату." % name, "utf8"))
+            del clients[conn]  # Видаляємо з'єднання зі словника клієнтів
+            broadcast(bytes("%s з [%s] вийшов з чату." % (name, "{}:{}".format(addr[0], addr[1])), "utf8"))
+            print("%s з [%s] вийшов з чату." % (name, "{}:{}".format(addr[0], addr[1])))
             break
 
-
 def broadcast(msg, prefix=""):
-    for sock in clients:
-        sock.send(bytes(prefix, "utf8") + msg)
+    for conn in clients:
+        conn.send(bytes(prefix, "utf8") + msg)
 
 
 if __name__ == "__main__":

@@ -22,9 +22,11 @@ def on_closing(event=None):
     my_msg.set("#quit")
     send()
 
+def close_socket():
+    sock.close()
 
 top = tkinter.Tk()
-top.title("Чат з клієнт серверним типом з'єднання")
+top.title("Чат з клієнт-серверним типом з'єднання")
 messages_frame = tkinter.Frame(top)
 
 my_msg = tkinter.StringVar()
@@ -45,13 +47,10 @@ entry_field.pack()
 send_button = tkinter.Button(top, text="Відправити", command=send)
 send_button.pack()
 
-
 quit_button = tkinter.Button(top, text="Вийти", command=on_closing)
 quit_button.pack()
 
 top.protocol("WM_DELETE_WINDOW", on_closing)
-
-
 
 HOST = "127.0.0.1"
 PORT = 5000
